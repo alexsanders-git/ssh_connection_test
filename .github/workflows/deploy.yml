@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       # Setup key
@@ -16,4 +16,4 @@ jobs:
       - run: echo "${{ secrets.key }}" > "$HOME/.ssh/key"
       - run: chmod 600 "$HOME/.ssh/key"
       # Deploy
-      - run: rsync -e "ssh -p 65002 -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . 65002 u436523386@145.14.153.243:/home/u436523386/domains/webcomplete.io/public_html/ssh/wp-content/themes/mytheme
+      - run: rsync -e "ssh -p 2222 -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . 65002 u436523386@145.14.153.243:/home/u436523386/domains/webcomplete.io/public_html/ssh/wp-content/themes/mytheme
