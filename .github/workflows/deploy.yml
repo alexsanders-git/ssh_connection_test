@@ -1,3 +1,11 @@
+#---------------------------------------------------------------------
+# GitHub Action Workflow to Deploy
+#
+# Version      Date        Info
+# 1.0          2022        Initial Version
+#
+# Made by Alex Sanders Webcomplete.io Copyleft (c) 2022
+#---------------------------------------------------------------------
 name: Deploy
 
 on:
@@ -9,11 +17,24 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      # Setup key
-      - run: set -eu
-      - run: mkdir "$HOME/.ssh"
-      - run: echo "${{ secrets.key }}" > "$HOME/.ssh/key"
-      - run: chmod 600 "$HOME/.ssh/key"
-      # Deploy
-      - run: rsync -e "ssh -p 65002 -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete --exclude /.git/ --exclude /.github/ --exclude /node_modules/ . u436523386@145.14.153.243:/home/u436523386/domains/webcomplete.io/public_html/ssh/wp-content/themes/mytheme
+    - name: Git clone our repo
+      uses: actions/checkout@v1
+      
+    - name: Setup key
+      run : |
+        set -eu
+        mkdir "$HOME/.ssh"
+        echo "${{ secrets.key }}" > "$HOME/.ssh/key"
+        chmod 600 "$HOME/.ssh/key"
+
+    - name: Deploy
+      env:
+        dest: 'u436523386@145.14.153.243:/home/u436523386/domains/webcomplete.io/public_html/ssh/wp-content/themes/mytheme'
+      run : |
+        rsync \
+          -e 'ssh -p 65002 -i $HOME/.ssh/key -o StrictHostKeyChecking=no' \
+          --archive --compress --delete \
+          --exclude /.git/ \
+          --exclude /.github/ \
+          --exclude /node_modules/ \
+          ./ u436523386@145.14.153.243:/home/u436523386/domains/webcomplete.io/public_html/ssh/wp-content/themes/mytheme
