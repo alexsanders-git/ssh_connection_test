@@ -28,6 +28,7 @@ jobs:
         chmod 600 ./deploy_key
         rsync -chav --delete \
           -e 'ssh -p 65002 -i ./deploy_key -o StrictHostKeyChecking=no' \
+          --archive --compress --delete \
           --exclude /deploy_key \
           --exclude /.git/ \
           --exclude /.github/ \
