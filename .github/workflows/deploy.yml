@@ -20,17 +20,14 @@ jobs:
     - name: Git clone our repo
       uses: actions/checkout@v1
       
-    - name: Setup key
+    - name: Deploy
+      env:
+        dest: 'u436523386@145.14.153.243:/home/u436523386/domains/webcomplete.io/public_html/ssh/wp-content/themes/mytheme'
       run : |
         set -eu
         mkdir "$HOME/.ssh"
         echo "${{ secrets.key }}" > "$HOME/.ssh/key"
         chmod 600 "$HOME/.ssh/key"
-
-    - name: Deploy
-      env:
-        dest: 'u436523386@145.14.153.243:/home/u436523386/domains/webcomplete.io/public_html/ssh/wp-content/themes/mytheme'
-      run : |
         rsync \
           -e 'ssh -p 65002 -i $HOME/.ssh/key -o StrictHostKeyChecking=no' \
           --archive --compress --delete \
