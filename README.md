@@ -4,6 +4,7 @@
 
 
 Status of Last Deployment:<br>
+<br>
 <img src="https://github.com/alexsanders-git/ssh_connection_test/workflows/Deploy/badge.svg?branch=main"><br>
 
 
